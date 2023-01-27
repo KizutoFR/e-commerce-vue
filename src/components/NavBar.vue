@@ -3,10 +3,12 @@
     v-if="showMenu"
     class="h-screen w-full flex flex-col flex-start absolute"
   >
-    <div class="menu-container h-16 flex flex-col flex-start bg-[#f5f5f5]">
+    <div
+      class="menu-container h-16 flex flex-row items-center flex-start bg-[#f5f5f5] shadow"
+    >
       <button @click="toggleBurger">
-        <Bars3Icon v-if="!showBurger" :key="1" class="menu h-16 ml-6" />
-        <XMarkIcon v-else :key="2" class="cross h-16 ml-6" />
+        <Bars3Icon v-if="!showBurger" :key="1" class="menu h-10 ml-4" />
+        <XMarkIcon v-else :key="2" class="cross h-10 ml-4" />
       </button>
     </div>
     <div
@@ -15,7 +17,7 @@
       :class="{ displayed: showBurger }"
     >
       <div
-        class="menu-list w-2/5 h-full flex flex-col justify-between gap-20 bg-[#f5f5f5] list-none items-center z-10 px-2 py-10"
+        class="menu-list w-2/5 h-full flex flex-col justify-between gap-20 bg-[#f5f5f5] list-none items-center relative z-50 px-2 py-10"
       >
         <slot />
       </div>
@@ -23,7 +25,7 @@
   </div>
   <div
     v-else
-    class="navbar h-16 w-full flex justify-end gap-10 bg-[#f5f5f5] items-center absolute pr-4"
+    class="navbar h-16 w-full flex justify-end gap-10 bg-[#f5f5f5] items-center absolute pr-4 shadow"
   >
     <slot name="navbar" />
   </div>
