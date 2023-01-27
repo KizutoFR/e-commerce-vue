@@ -18,7 +18,7 @@
         >
         <span
           class="bg-[#dad5f0] p-1 px-1.5 rounded border text-[#2c00d5] uppercase text-[0.6rem] font-bold"
-          ><a :href="`/catalog/${data.category}`">{{ data.category }}</a></span
+          ><a :href="`/${data.category}`">{{ data.category }}</a></span
         >
       </div>
       <div class="flex flex-row justify-between items-center w-full">
