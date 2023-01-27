@@ -1,70 +1,95 @@
 <template>
-<<<<<<< HEAD
-  <header class="w-full">
-    <Navbar>
-      <div class="flex flex-col gap-10">
-        <li><RouterLink to="/">Tous les produits</RouterLink></li>
-      </div>
-      <div>
-        <li>
-          <RouterLink to="/cart" class="cart relative">
-            <div
-              class="rounded-full border-2 border-black bg-white text-[#2c00d5] font-bold w-8 h-8 absolute top-0 right-0 flex justify-center items-center"
-            >
-              {{ productLength }}
+  <div
+    v-if="loading"
+    class="h-screen flex flex-col justify-center items-center"
+  >
+    <Loader />
+  </div>
+  <div v-else>
+    <header class="w-full">
+      <Navbar>
+        <div class="flex flex-col gap-10">
+          <li class="text-[1.5rem]">
+            <RouterLink to="/">Tous les produits</RouterLink>
+          </li>
+          <li
+            v-for="(category, index) in categories"
+            :key="index"
+            class="capitalize text-[1.5rem]"
+          >
+            <RouterLink :to="`/${category}`">{{ category }}</RouterLink>
+          </li>
+        </div>
+        <div>
+          <li class="text-[1.5rem]">
+            <RouterLink to="/cart" class="cart relative">
+              <div
+                class="rounded-full border-2 border-black bg-white text-[#2c00d5] font-bold w-8 h-8 absolute top-0 right-0 flex justify-center items-center"
+              >
+                {{ productLength }}
+              </div>
+              <ShoppingCartIcon class="h-16" />
+            </RouterLink>
+          </li>
+        </div>
+        <template v-slot:navbar>
+          <RouterLink to="/">Tous les produits</RouterLink>
+          <RouterLink
+            v-for="(category, index) in categories"
+            :key="index"
+            class="capitalize text-[1.5rem]"
+            :to="`/${category}`"
+            >{{ category }}</RouterLink
+          >
+          <RouterLink to="/cart">
+            <div class="relative w-fit">
+              <div
+                class="badge rounded-full border border-black bg-white text-[#2c00d5] font-bold w-6 h-6 absolute -top-1/3 -right-1/2 flex justify-center items-center text-xs"
+              >
+                {{ productLength }}
+              </div>
+              <ShoppingCartIcon class="h-8" />
             </div>
-            <ShoppingCartIcon class="h-16" />
           </RouterLink>
-        </li>
-      </div>
-      <template v-slot:navbar>
-        <RouterLink to="/">Tous les produits</RouterLink>
-        <RouterLink to="/cart">
-          <div class="relative w-fit">
-            <div
-              class="badge rounded-full border border-black bg-white text-[#2c00d5] font-bold w-6 h-6 absolute -top-1/3 -right-1/2 flex justify-center items-center text-xs"
-            >
-              {{ productLength }}
-            </div>
-            <ShoppingCartIcon class="h-8" />
-          </div>
-        </RouterLink>
-      </template>
-    </Navbar>
-=======
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/produits">produit</RouterLink>
-        <RouterLink to="/panier">panier</RouterLink>
-      </nav>
-    </div>
->>>>>>> b479289 (add cart and porudct page)
-  </header>
+        </template>
+      </Navbar>
+    </header>
 
-  <div class="pt-16">
-    <RouterView />
+    <div class="pt-16">
+      <RouterView />
+    </div>
   </div>
 </template>
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Navbar from '@/components/NavBar.vue'
+import Loader from '@/components/Loader.vue'
 import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '@/stores/products.js'
+import { onMounted } from 'vue'
 export default {
   components: {
     Navbar,
+    Loader,
     ShoppingCartIcon,
     RouterLink,
     RouterView
   },
   setup() {
-    const { productLength } = storeToRefs(useProductsStore())
+    const { productLength, categories, loading } = storeToRefs(
+      useProductsStore()
+    )
+    const { fetchProducts } = useProductsStore()
+
+    onMounted(async () => {
+      await fetchProducts()
+    })
+
     return {
-      productLength
+      productLength,
+      categories,
+      loading
     }
   }
 }
@@ -75,7 +100,8 @@ header {
   line-height: 1.5;
 }
 
-div a {
+div a,
+li > span {
   display: flex;
   padding: 0 1rem;
   height: 100%;
@@ -107,6 +133,5 @@ div a {
 }
 li {
   width: 100%;
-  font-size: 1.5rem;
 }
 </style>
