@@ -9,7 +9,7 @@
             v-for="(category, index) in categories"
             :key="index"
             class="bg-[#dad5f0] p-1 px-1.5 rounded border text-[#2c00d5] uppercase text-xs font-bold hover:underline"
-            ><a :href="`/catalog/${category}`">{{ category }}</a></span
+            ><a :href="`/${category}`">{{ category }}</a></span
           >
         </div>
       </template>
