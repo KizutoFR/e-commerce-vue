@@ -6,6 +6,28 @@ export const useProductsStore = defineStore('products', () => {
   const categories = ref([])
   const loading = ref(false)
   const productLength = ref(0)
+  const productsInCart = ref([])
+  const updateCart = (product, action) => {
+    let productInCart = productsInCart.value.findIndex(
+      (p) => p.id === product.id
+    )
+
+    if (action === 0) {
+      productsInCart.value.splice(productInCart, 1)
+    }
+    if (productInCart != -1) {
+      console.log(product)
+      productsInCart.value[productInCart] = {
+        ...product,
+        quantity: productsInCart.value[productInCart].quantity + action
+      }
+    } else {
+      productsInCart.value.push({
+        ...product,
+        quantity: 1
+      })
+    }
+  }
 
   const fetchProducts = async () => {
     try {
@@ -23,5 +45,26 @@ export const useProductsStore = defineStore('products', () => {
     }
   }
 
-  return { products, fetchProducts, loading, categories, productLength }
+  const fetchProduct = async (id) => {
+    try {
+      loading.value = true
+      const response = await fetch('https://fakestoreapi.com/products/' + id)
+      const result = await response.json()
+      loading.value = false
+      return result
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  return {
+    products,
+    fetchProducts,
+    fetchProduct,
+    updateCart,
+    productsInCart,
+    categories,
+    productLength,
+    loading
+  }
 })

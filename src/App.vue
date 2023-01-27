@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <header class="w-full">
     <Navbar>
       <div class="flex flex-col gap-10">
@@ -30,6 +31,17 @@
         </RouterLink>
       </template>
     </Navbar>
+=======
+  <header>
+    <div class="wrapper">
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/produits">produit</RouterLink>
+        <RouterLink to="/panier">panier</RouterLink>
+      </nav>
+    </div>
+>>>>>>> b479289 (add cart and porudct page)
   </header>
 
   <div class="pt-16">
