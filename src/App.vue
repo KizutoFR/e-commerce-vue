@@ -1,15 +1,8 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import Navbar from '@/components/NavBar.vue'
-import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
-</script>
-
 <template>
   <header class="w-full">
     <Navbar>
       <div class="flex flex-col gap-10">
         <li><RouterLink to="/">Tous les produits</RouterLink></li>
-        <li><RouterLink to="/category">Catégorie </RouterLink></li>
       </div>
       <div>
         <li>
@@ -17,7 +10,7 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
             <div
               class="rounded-full border-2 border-black bg-white text-[#2c00d5] font-bold w-8 h-8 absolute top-0 right-0 flex justify-center items-center"
             >
-              99
+              {{ productLength }}
             </div>
             <ShoppingCartIcon class="h-16" />
           </RouterLink>
@@ -25,13 +18,12 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
       </div>
       <template v-slot:navbar>
         <RouterLink to="/">Tous les produits</RouterLink>
-        <RouterLink to="/category">Catégorie</RouterLink>
         <RouterLink to="/cart">
           <div class="relative w-fit">
             <div
               class="badge rounded-full border border-black bg-white text-[#2c00d5] font-bold w-6 h-6 absolute -top-1/3 -right-1/2 flex justify-center items-center text-xs"
             >
-              99
+              {{ productLength }}
             </div>
             <ShoppingCartIcon class="h-8" />
           </div>
@@ -44,6 +36,27 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
     <RouterView />
   </div>
 </template>
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import Navbar from '@/components/NavBar.vue'
+import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
+import { storeToRefs } from 'pinia'
+import { useProductsStore } from '@/stores/products.js'
+export default {
+  components: {
+    Navbar,
+    ShoppingCartIcon,
+    RouterLink,
+    RouterView
+  },
+  setup() {
+    const { productLength } = storeToRefs(useProductsStore())
+    return {
+      productLength
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 header {
