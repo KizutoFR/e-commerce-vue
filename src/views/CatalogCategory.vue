@@ -1,11 +1,10 @@
 <template>
-  <span v-if="loading">loading</span>
-  <div v-else class="p-8 flex flex-col gap-8 items-start">
+  <div class="p-8 flex flex-col gap-8 items-start">
     <a href="/" class="underline bg-[#2c00d5] text-white rounded py-1 px-2"
       >Retour</a
     >
     <h1 class="text-3xl font-bold">Catalog - "{{ selectedCategory }}"</h1>
-    <ProductsList :products="filteredProducts" />
+    <ProductsList :key="selectedCategory" :products="filteredProducts" />
   </div>
 </template>
 
@@ -21,13 +20,12 @@ export default {
     ProductsList
   },
   setup() {
-    const { products, loading, categories } = storeToRefs(useProductsStore())
-    const { fetchProducts } = useProductsStore()
+    const { products, categories } = storeToRefs(useProductsStore())
     const route = useRoute()
     const router = useRouter()
 
     const state = reactive({
-      selectedCategory: route.params.category,
+      selectedCategory: computed(() => route.params.category),
       filteredProducts: computed(() => {
         return products.value.filter((product) => {
           const isMatchingCategory =
@@ -39,16 +37,14 @@ export default {
     })
 
     onMounted(async () => {
-      await fetchProducts()
-      if (!categories.value.includes(route.params.category)) {
+      if (!categories.value.includes(state.selectedCategory)) {
         router.replace('/')
       }
     })
 
     return {
       ...toRefs(state),
-      products,
-      loading
+      products
     }
   }
 }

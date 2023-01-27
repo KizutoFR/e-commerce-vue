@@ -94,17 +94,21 @@ export default {
   setup(props) {
     const state = reactive({
       lowestPrice: computed(() =>
-        props.products.reduce((acc, product) => {
-          if (!acc) {
-            return product.price
-          }
-          return acc < product.price ? acc : product.price
-        }, undefined)
+        Math.floor(
+          props.products.reduce((acc, product) => {
+            if (!acc) {
+              return product.price
+            }
+            return acc < product.price ? acc : product.price
+          }, undefined)
+        )
       ),
       highestPrice: computed(() =>
-        props.products.reduce((acc, product) => {
-          return acc > product.price ? acc : product.price
-        }, 0)
+        Math.ceil(
+          props.products.reduce((acc, product) => {
+            return acc > product.price ? acc : product.price
+          }, 0)
+        )
       ),
       selectedPrice: undefined,
       selectedOrder: orderTypes[0],

@@ -1,6 +1,5 @@
 <template>
-  <span v-if="loading">loading</span>
-  <div v-else class="p-8 flex flex-col gap-8">
+  <div class="p-8 flex flex-col gap-8">
     <h1 class="text-3xl font-bold">Catalog</h1>
     <ProductsList :products="products">
       <template #categories>
@@ -20,7 +19,6 @@
 <script>
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '@/stores/products.js'
-import { onMounted } from 'vue'
 import ProductsList from '@/components/ProductsList.vue'
 
 export default {
@@ -28,16 +26,10 @@ export default {
     ProductsList
   },
   setup() {
-    const { products, loading, categories } = storeToRefs(useProductsStore())
-    const { fetchProducts } = useProductsStore()
-
-    onMounted(async () => {
-      await fetchProducts()
-    })
+    const { products, categories } = storeToRefs(useProductsStore())
 
     return {
       categories,
-      loading,
       products
     }
   }
