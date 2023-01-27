@@ -1,15 +1,15 @@
 <template>
-  <div v-if="loading" class="loading">loading</div>
-  <div v-else-if="product" class="product">
+  <div v-if="product" class="product">
     <div class="product_container">
       <div class="image">
         <img :src="product.image" class="image_product" :alt="product.title" />
       </div>
       <div class="product_detail">
         <h1 class="name_product">{{ product.title }}</h1>
-        <p class="categorie_product">
-          <a href="#">{{ product.category }}</a>
-        </p>
+        <span
+          class="bg-[#dad5f0] p-1 px-1.5 rounded border text-[#2c00d5] uppercase text-[0.6rem] font-bold mb-2"
+          ><a :href="`/${product.category}`">{{ product.category }}</a></span
+        >
         <div class="rate_product">
           <p>{{ product.rating.rate }}</p>
           <StarIcon class="h-6 w-6 text-blue-500" />
@@ -33,12 +33,12 @@ import { storeToRefs } from 'pinia'
 import { useProductsStore } from '@/stores/products.js'
 import { onMounted, ref } from 'vue'
 import { StarIcon } from '@heroicons/vue/24/solid'
+import { useRoute } from 'vue-router'
 
 export default {
   components: { StarIcon },
-  // props: ['id'],
-  // setup(props) {
   setup() {
+    const route = useRoute()
     const { loading } = storeToRefs(useProductsStore())
     const { fetchProduct, updateCart } = useProductsStore()
     const product = ref(undefined)
@@ -46,8 +46,7 @@ export default {
       updateCart(product.value, 1)
     }
     onMounted(async () => {
-      // product.value = await fetchProduct(props.id)
-      product.value = await fetchProduct(1)
+      product.value = await fetchProduct(route.params.id)
     })
     return {
       addProductToCart,
@@ -114,7 +113,7 @@ export default {
   grid-template-columns: 20% auto;
   justify-content: center;
   border: none;
-  background: #3cb4a8;
+  background: #2c00d5;
   padding: 8px;
   padding-top: 12px;
   padding-bottom: 12px;

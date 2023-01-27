@@ -14,7 +14,7 @@
         <span
           class="text-sm font-bold underline overflow-ellipsis overflow-hidden product-title"
           :title="data.title"
-          >{{ data.title }}</span
+          ><a :href="`/products/${data.id}`">{{ data.title }}</a></span
         >
         <span
           class="bg-[#dad5f0] p-1 px-1.5 rounded border text-[#2c00d5] uppercase text-[0.6rem] font-bold"
@@ -26,7 +26,10 @@
           <span class="text-gray-400">Price : </span>
           <span>${{ data.price }}</span>
         </div>
-        <button class="bg-[#2c00d5] text-white rounded-xl p-3">
+        <button
+          class="bg-[#2c00d5] text-white rounded-xl p-3"
+          @click="addToCart"
+        >
           <ShoppingCartIcon class="text-white h-6 w-6" />
         </button>
       </div>
@@ -36,6 +39,7 @@
 
 <script>
 import { ShoppingCartIcon } from '@heroicons/vue/24/outline'
+import { useProductsStore } from '@/stores/products.js'
 import { toRefs } from 'vue'
 export default {
   components: {
@@ -48,8 +52,15 @@ export default {
     }
   },
   setup(props) {
+    const { updateCart } = useProductsStore()
+
+    const addToCart = () => {
+      updateCart(props.data, 1)
+    }
+
     return {
-      ...toRefs(props)
+      ...toRefs(props),
+      addToCart
     }
   }
 }

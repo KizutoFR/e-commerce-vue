@@ -1,12 +1,18 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref([])
   const categories = ref([])
   const loading = ref(false)
-  const productLength = ref(0)
   const productsInCart = ref([])
+  const productLength = computed(() =>
+    productsInCart.value.reduce((acc, product) => {
+      console.log(acc)
+      return acc + product.quantity
+    }, 0)
+  )
+
   const updateCart = (product, action) => {
     let productInCart = productsInCart.value.findIndex(
       (p) => p.id === product.id
@@ -16,7 +22,6 @@ export const useProductsStore = defineStore('products', () => {
       productsInCart.value.splice(productInCart, 1)
     }
     if (productInCart != -1) {
-      console.log(product)
       productsInCart.value[productInCart] = {
         ...product,
         quantity: productsInCart.value[productInCart].quantity + action
@@ -47,10 +52,8 @@ export const useProductsStore = defineStore('products', () => {
 
   const fetchProduct = async (id) => {
     try {
-      loading.value = true
       const response = await fetch('https://fakestoreapi.com/products/' + id)
       const result = await response.json()
-      loading.value = false
       return result
     } catch (err) {
       console.error(err)

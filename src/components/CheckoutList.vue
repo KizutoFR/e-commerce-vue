@@ -7,10 +7,10 @@
         :key="product"
         class="checkout_product"
       >
-        <router-link class="linkCart" to="./">
+        <router-link class="linkCart" :to="`/products/${product.id}`">
           <img :src="product.image" alt="" class="product_image" />
         </router-link>
-        <router-link class="linkCart" to="./">
+        <router-link class="linkCart" :to="`/products/${product.id}`">
           <h3 class="product_name">{{ product.title }}</h3>
         </router-link>
         <span class="product_price">$ {{ product.price }} </span>
@@ -132,7 +132,7 @@ $border: 2px solid #ddd;
   }
 }
 .linkCart:hover {
-  color: blue;
+  color: #2c00d5;
 }
 .delete {
   font-size: 12px;
