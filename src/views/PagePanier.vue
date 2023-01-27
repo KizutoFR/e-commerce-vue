@@ -24,9 +24,8 @@ export default {
     CheckoutList
   },
   setup() {
-    const { productsInCart, updateCart, productLength } = storeToRefs(
-      useProductsStore()
-    )
+    const { productsInCart, productLength } = storeToRefs(useProductsStore())
+    const { updateCart } = useProductsStore()
     const totalPrice = computed(() => {
       return productsInCart.value
         .reduce((acc, product) => {
