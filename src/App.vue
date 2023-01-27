@@ -70,7 +70,6 @@ div a {
   &.router-link-exact-active {
     color: #2c00d5;
     font-weight: bold;
-    // background-color: grey;
     position: relative;
     &::before {
       content: '.';
