@@ -1,14 +1,6 @@
 # e-commerce-vue
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+E-commmerce-vue est un projet e-commerce dans le cadre du module VueJs, sur ce site nous pouvons trier les produits par prix / notes / noms et les filtrer par plage de prix. Nous pouvons également rechercher les produits par nom. Bien entendu nous pouvons mettre dans notre panier des articles.
 
 ## Project Setup
 
@@ -22,14 +14,8 @@ npm install
 npm run dev
 ```
 
-### Compile and Minify for Production
+## Member
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- Lucas Boinet
+- Léna Simonin
+- Yanis Ben Amor
